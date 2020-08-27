@@ -4,7 +4,7 @@ import './Card.css';
 export default function Card(card) {
   return (
     <div className='Card'>
-      <button key={card.id} onClick={() => card.onDeleteCard(card.id)}
+      <button id={card.id} onClick={() => card.onDeleteCard(card.id)}
         type='button'
       >
         delete

@@ -4,42 +4,45 @@ import './App.css';
 import STORE  from './STORE'
 
 export default class App extends Component {
-  static defaultProps = {
-    store: {
-      lists: [],
-      allCards: {},
-    }
-  };
-
   state = {
     store : STORE
   };
 
+  omit(obj, keyToOmit) {
+    let {[keyToOmit]: _, ...rest} = obj;
+    return rest;
+  };
+
   handleDeleteCard = (cardId) => {
-    console.log('delete clicked')
     const {lists, allCards} = this.state.store;
-    // const newCards = allCards.filter(id => id !== cardId);
-    // const newList = lists;
-    console.log(lists);
-    console.log(allCards);
-    // this.setState({
-    //   store: newCards
+    const newCards = this.omit(allCards, cardId);
+    const newLists = lists.map(list => ({
+      ...list,
+      cardIds: list.cardIds.filter(id => id !== cardId)
+    }));
+    this.setState({
+      store: {
+        allCards: newCards,
+        lists: newLists
+      }
+    })
   }
 
 
   render() {
-    const { store } = this.props
+    const { lists, allCards } = this.state.store;
     return (
       <main className='App'>
         <header className='App-header'>
           <h1>Trelloyes!</h1>
         </header>
         <div className='App-list'>
-          {store.lists.map(list => (
+          {lists.map(list => (
             <List
               key={list.id}
+              id={list.id}
               header={list.header}
-              cards={list.cardIds.map(id => store.allCards[id])}
+              cards={list.cardIds.map(id => allCards[id])}
               onDeleteCard={this.handleDeleteCard}
             />
           ))}
