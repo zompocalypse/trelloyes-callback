@@ -3,19 +3,29 @@ import List from './List'
 import './App.css';
 import STORE  from './STORE'
 
+function omit(obj, keyToOmit) {
+  let {[keyToOmit]: _, ...rest} = obj;
+  return rest;
+};
+
+const newRandomCard = () => {
+  const id = Math.random().toString(36).substring(2, 4)
+    + Math.random().toString(36).substring(2, 4);
+  return {
+    id,
+    title: `Random Card ${id}`,
+    content: 'lorem ipsum',
+  }
+}
+
 export default class App extends Component {
   state = {
     store : STORE
   };
 
-  omit(obj, keyToOmit) {
-    let {[keyToOmit]: _, ...rest} = obj;
-    return rest;
-  };
-
   handleDeleteCard = (cardId) => {
     const {lists, allCards} = this.state.store;
-    const newCards = this.omit(allCards, cardId);
+    const newCards = omit(allCards, cardId);
     const newLists = lists.map(list => ({
       ...list,
       cardIds: list.cardIds.filter(id => id !== cardId)
@@ -25,7 +35,7 @@ export default class App extends Component {
         allCards: newCards,
         lists: newLists
       }
-    })
+    });
   }
 
 
