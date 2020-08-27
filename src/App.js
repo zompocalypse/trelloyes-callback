@@ -1,14 +1,31 @@
 import React, { Component } from 'react';
 import List from './List'
 import './App.css';
+import STORE  from './STORE'
 
-class App extends Component {
+export default class App extends Component {
   static defaultProps = {
     store: {
       lists: [],
       allCards: {},
     }
   };
+
+  state = {
+    store : STORE
+  };
+
+  handleDeleteCard = (cardId) => {
+    console.log('delete clicked')
+    const {lists, allCards} = this.state.store;
+    const newCards = allCards.filter(id => id !== cardId);
+    const newList = lists;
+    console.log(lists);
+    console.log(allCards);
+    // this.setState({
+    //   store: newCards
+  }
+
 
   render() {
     const { store } = this.props
@@ -23,6 +40,7 @@ class App extends Component {
               key={list.id}
               header={list.header}
               cards={list.cardIds.map(id => store.allCards[id])}
+              onDeleteCard={this.handleDeleteCard}
             />
           ))}
         </div>
@@ -31,4 +49,3 @@ class App extends Component {
   }
 }
 
-export default App;
