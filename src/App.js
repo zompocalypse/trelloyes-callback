@@ -18,8 +18,8 @@ export default class App extends Component {
   handleDeleteCard = (cardId) => {
     console.log('delete clicked')
     const {lists, allCards} = this.state.store;
-    const newCards = allCards.filter(id => id !== cardId);
-    const newList = lists;
+    // const newCards = allCards.filter(id => id !== cardId);
+    // const newList = lists;
     console.log(lists);
     console.log(allCards);
     // this.setState({
