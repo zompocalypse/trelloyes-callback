@@ -18,10 +18,46 @@ const newRandomCard = () => {
   }
 }
 
+
 export default class App extends Component {
   state = {
     store : STORE
   };
+  
+  lists = this.state.store.lists;
+  allCards = this.state.store.lists;
+
+  handleNewRandomCard = (listId) => {
+    const newCard = newRandomCard();
+    const newCards = {...this.allCards, [newCard.id]: newCard}
+    this.setState({
+      store: {
+        allCards: newCards,
+      }
+    });
+  }
+
+  handleNewList = (listId) => {
+    const newCard = newRandomCard();
+    const newCards = {...this.allCards, [newCard.id]: newCard}
+    const newList = this.lists.map(list => 
+      {
+      //({...lists, cardIds: newCard}));
+    
+      if (list.id === listId){
+        list.cardIds.push(newCards.id)
+      }
+    });
+      console.log(newList);
+      //console.log(newList);
+      // this.setState({
+      //   store: {
+      //     allCards: newCards,
+      //     lists: newList
+      //   }
+      // });
+    
+  }
 
   handleDeleteCard = (cardId) => {
     const {lists, allCards} = this.state.store;
@@ -47,12 +83,13 @@ export default class App extends Component {
           <h1>Trelloyes!</h1>
         </header>
         <div className='App-list'>
-          {lists.map(list => (
+          {this.lists.map(list => (
             <List
               key={list.id}
               id={list.id}
               header={list.header}
               cards={list.cardIds.map(id => allCards[id])}
+              onAddCard={this.handleNewRandomCard}
               onDeleteCard={this.handleDeleteCard}
             />
           ))}
@@ -60,5 +97,5 @@ export default class App extends Component {
       </main>
     );
   }
-}
+};
 

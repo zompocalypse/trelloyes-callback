@@ -15,12 +15,14 @@ export default function List(props) {
             id={card.id}
             title={card.title}
             content={card.content}
+            onAddCard={props.onAddCard}
             onDeleteCard={props.onDeleteCard}
           />
         )}
         <button
           type='button'
-          className='List-add-button'
+          className='List-add-button' 
+          onClick={() => props.onAddCard(props.id)}
         >
           + Add Random Card
         </button>
