@@ -1,6 +1,4 @@
-
-export default {
-  lists: [
+const lists = [
     {
       id: '1',
       header: 'First list',
@@ -21,8 +19,9 @@ export default {
       header: 'Fourth list',
       cardIds: [ 'l', 'm' ],
     },
-  ],
-  allCards: {
+  ];
+  
+const allCards = {
     'a': { id: 'a', title: 'First card', content: 'lorem ipsum' },
     'b': { id: 'b', title: 'Second card', content: 'lorem ipsum' },
     'c': { id: 'c', title: 'Third card', content: 'lorem ipsum' },
@@ -35,6 +34,7 @@ export default {
     'j': { id: 'j', title: 'Tenth card', content: 'lorem ipsum' },
     'k': { id: 'k', title: 'Eleventh card', content: 'lorem ipsum' },
     'l': { id: 'l', title: 'Twelfth card', content: 'lorem ipsum' },
-    'm': { id: 'm', title: 'Thirteenth card', content: 'lorem ipsum' },
-  },
-}
+    'm': { id: 'm', title: 'Thirteenth card', content: 'lorem ipsum' }
+  };
+
+export {allCards, lists};

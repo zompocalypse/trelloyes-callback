@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import List from './List'
 import './App.css';
-import STORE  from './STORE'
+import {lists, allCards} from './STORE';
 
 function omit(obj, keyToOmit) {
   let {[keyToOmit]: _, ...rest} = obj;
@@ -21,45 +21,38 @@ const newRandomCard = () => {
 
 export default class App extends Component {
   state = {
-    store : STORE
+    lists, allCards
   };
 
   handleNewRandomCard = (listId) => {
-    const {lists, allCards} = this.state.store;
     const newCard = newRandomCard();
-    console.log(newCard);
-    const newCards = {...allCards, [newCard.id]: newCard}
-    const newList =  lists.map(list => ({...lists, 
-      cardIds: newCard}));
-    
-      console.log(newList);
-      //console.log(newList);
-    // this.setState({
-    //   store: {
-    //     allCards: newCards,
-    //     lists: newList
-    //   }
-    // });
+    this.setState((prevState) => {
+      const {lists, allCards} = prevState;
+      return {
+        lists: lists.map(list => (
+          list.id === listId ? {...list, cardIds: [...list.cardIds, newCard.id]} : list
+        )),
+        allCards: {...allCards, [newCard.id]: newCard}
+      }
+    })
   }
 
   handleDeleteCard = (cardId) => {
-    const {lists, allCards} = this.state.store;
-    const newCards = omit(allCards, cardId);
-    const newLists = lists.map(list => ({
-      ...list,
-      cardIds: list.cardIds.filter(id => id !== cardId)
-    }));
-    this.setState({
-      store: {
-        allCards: newCards,
-        lists: newLists
-      }
+    this.setState((prevState) => {
+      const {lists, allCards} = prevState;
+      return {
+        lists: lists.map(list => ({
+          ...list,
+          cardIds: list.cardIds.filter(id => id !== cardId)
+        })),
+        allCards: omit(allCards, cardId)
+      };
     });
   }
 
 
   render() {
-    const { lists, allCards } = this.state.store;
+    const { lists, allCards } = this.state;
     return (
       <main className='App'>
         <header className='App-header'>
