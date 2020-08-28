@@ -27,20 +27,26 @@ export default class App extends Component {
   handleNewRandomCard = (listId) => {
     const {lists, allCards} = this.state.store;
     const newCard = newRandomCard();
-    console.log(newCard);
-    const newCards = {...allCards, [newCard.id]: newCard}
-    const newList =  lists.map(list => ({...lists, 
-      cardIds: newCard}));
-    
-      console.log(newList);
-      //console.log(newList);
-    // this.setState({
-    //   store: {
-    //     allCards: newCards,
-    //     lists: newList
-    //   }
-    // });
-  }
+    const newCards = {...allCards, [newCard.id]: newCard};
+    const newLists = this.state.store.lists.map(list => {
+      if (list.id === listId) {
+	      return {
+          ...list,
+          cardIds: [...list.cardIds, newCard.id]
+        };
+      }
+      return list;
+    })
+    this.setState({
+      store: {
+        lists: newLists,
+        allCards: {
+          ...this.state.store.allCards,
+          [newCard.id]: newCard
+        }
+      }
+    })
+  };
 
   handleDeleteCard = (cardId) => {
     const {lists, allCards} = this.state.store;
